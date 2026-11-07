@@ -226,6 +226,7 @@ class LembangFreshTest extends TestCase
     {
         $buyer = User::where('role', 'pembeli')->first();
         $harvest = Harvest::where('status', 'tersedia')->first();
+        $harvest->update(['quantity' => 100]); // Pastikan stok mencukupi untuk pengujian
 
         $initialQuantity = $harvest->quantity;
 
