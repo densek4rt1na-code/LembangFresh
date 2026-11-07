@@ -3,8 +3,8 @@
 <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden product-card transition-all">
     <div class="position-relative bg-light text-center" style="height: 190px;">
         @if($harvest->photo_path && file_exists(public_path('storage/' . $harvest->photo_path)))
-            <img src="{{ asset('storage/' . $harvest->photo_path) }}" 
-                 alt="{{ $harvest->commodity }}" 
+            <img src="{{ asset('storage/' . $harvest->photo_path) }}"
+                 alt="{{ $harvest->commodity }}"
                  class="w-100 h-100 object-fit-cover">
         @else
             <div class="w-100 h-100 d-flex flex-column align-items-center justify-content-center bg-light text-muted">

@@ -3,7 +3,7 @@
 @section('title', 'Pasar Hortikultura LembangFresh - Hasil Panen Petani Lembang')
 
 @section('content')
-<!-- Hero Banner -->
+
 <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 bg-forest text-white">
     <div class="card-body p-4 p-md-5">
         <div class="row align-items-center">
@@ -44,13 +44,12 @@
     </div>
 </div>
 
-<!-- Filter & Pencarian -->
 <div class="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white" id="katalog">
     <form action="{{ route('home') }}" method="GET" class="row g-2 align-items-center">
         <div class="col-md-4">
             <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted"><i class="fas fa-search"></i></span>
-                <input type="text" name="search" class="form-control bg-light border-start-0" 
+                <input type="text" name="search" class="form-control bg-light border-start-0"
                        placeholder="Cari wortel, tomat, brokoli..." value="{{ request('search') }}">
             </div>
         </div>
@@ -67,7 +66,7 @@
         <div class="col-md-3">
             <div class="input-group">
                 <span class="input-group-text bg-light border-end-0 text-muted">Rp</span>
-                <input type="number" name="max_price" class="form-control bg-light border-start-0" 
+                <input type="number" name="max_price" class="form-control bg-light border-start-0"
                        placeholder="Harga maks / kg" value="{{ request('max_price') }}">
             </div>
         </div>
@@ -75,7 +74,7 @@
         <div class="col-md-2">
             @auth
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="sort_distance" value="1" id="sortDist" 
+                    <input class="form-check-input" type="checkbox" name="sort_distance" value="1" id="sortDist"
                            {{ request('sort_distance') ? 'checked' : '' }}>
                     <label class="form-check-label small fw-semibold" for="sortDist">
                         <i class="fas fa-location-arrow text-danger me-1"></i> Terdekat Dulu
@@ -96,9 +95,8 @@
     </form>
 </div>
 
-<!-- Main Content Grid & GIS Map -->
 <div class="row g-4">
-    <!-- Kolom Daftar Produk Panen -->
+
     <div class="col-lg-8">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-bold m-0 text-dark">
@@ -113,7 +111,7 @@
         </div>
 
         <div class="row g-3">
-            {{-- Directive Blade: forelse untuk menampilkan kartu produk --}}
+
             @forelse($harvests as $harvest)
                 <div class="col-md-6">
                     <x-product-card :harvest="$harvest" />
@@ -133,7 +131,6 @@
         </div>
     </div>
 
-    <!-- Kolom Peta Interaktif GIS Lembang -->
     <div class="col-lg-4">
         <div class="card border-0 shadow-sm rounded-3 p-3 sticky-top bg-white" style="top: 80px;">
             <div class="d-flex justify-content-between align-items-center mb-2">
@@ -168,7 +165,6 @@
     </div>
 </div>
 
-<!-- 6 Pembeda Utama Sistem LembangFresh (Sesuai Rancangan Sistem Bab 14) -->
 <div class="card border-0 shadow-sm rounded-4 bg-white p-4 p-md-5 mt-4 mb-2">
     <div class="text-center mb-4">
         <span class="badge bg-success-subtle text-forest fw-bold px-3 py-2 rounded-pill mb-2">
@@ -271,7 +267,6 @@
 @push('scripts')
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // Koordinat Pusat Kecamatan Lembang: -6.8120, 107.6180
         const map = L.map('mainMap').setView([-6.8120, 107.6180], 12);
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -279,7 +274,6 @@
             attribution: '&copy; OpenStreetMap kontributor'
         }).addTo(map);
 
-        // Marker Data Petani Hortikultura
         @foreach($farmerMarkers as $farmer)
             @if($farmer->lat && $farmer->lng)
                 L.marker([{{ $farmer->lat }}, {{ $farmer->lng }}])
@@ -294,7 +288,6 @@
             @endif
         @endforeach
 
-        // Marker Lokasi Pengguna Saat Ini (Jika Login)
         @auth
             @if(auth()->user()->lat && auth()->user()->lng)
                 L.circleMarker([{{ auth()->user()->lat }}, {{ auth()->user()->lng }}], {
@@ -308,3 +301,4 @@
     });
 </script>
 @endpush
+

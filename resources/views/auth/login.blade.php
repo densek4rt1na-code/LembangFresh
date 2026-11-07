@@ -21,8 +21,8 @@
                     <label for="email" class="form-label fw-semibold small">Alamat Email:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-light text-muted"><i class="fas fa-envelope"></i></span>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
-                               name="email" value="{{ old('email') }}" required autocomplete="email" autofocus 
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                               name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
                                placeholder="nama@email.com">
                     </div>
                     @error('email')
@@ -34,7 +34,7 @@
                     <label for="password" class="form-label fw-semibold small">Kata Sandi:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-light text-muted"><i class="fas fa-lock"></i></span>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
+                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
                                name="password" required autocomplete="current-password" placeholder="••••••••">
                     </div>
                     @error('password')
@@ -55,10 +55,11 @@
             </form>
 
             <div class="mt-4 pt-3 border-top text-center small text-muted">
-                Belum memiliki akun terdaftar? 
+                Belum memiliki akun terdaftar?
                 <a href="{{ route('register') }}" class="text-forest fw-bold text-decoration-none">Registrasi Akun Baru</a>
             </div>
         </div>
     </div>
 </div>
 @endsection
+

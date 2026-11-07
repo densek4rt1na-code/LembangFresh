@@ -23,7 +23,7 @@ class LogisticsSeeder extends Seeder
                 'weight_kg' => 300,
                 'distance_km' => 3.5,
                 'shipping_method' => 'mitra_pengangkut',
-                'shipping_cost' => LogisticsShipment::calculateMitraFee(3.5), // 50000 + 4 * 5000 = 70000
+                'shipping_cost' => LogisticsShipment::calculateMitraFee(3.5),
                 'status' => 'selesai',
                 'document_path' => 'logistics/surat_jalan_001.png',
                 'notes' => 'Surat jalan resmi telah ditandatangani oleh penerima di lokasi toko.',
@@ -37,14 +37,14 @@ class LogisticsSeeder extends Seeder
                 'weight_kg' => 150,
                 'distance_km' => 4.8,
                 'shipping_method' => 'mitra_pengangkut',
-                'shipping_cost' => LogisticsShipment::calculateMitraFee(4.8), // 50000 + 5 * 5000 = 75000
+                'shipping_cost' => LogisticsShipment::calculateMitraFee(4.8),
                 'status' => 'dikirim',
                 'document_path' => 'logistics/surat_jalan_002.png',
                 'notes' => 'Armada pickup dalam perjalanan dari Cikidang menuju hotel.',
             ],
             [
                 'tracking_code' => 'LF-LOG-20261103-KTG3',
-                'mitra_id' => null, // diantar petani sendiri
+                'mitra_id' => null,
                 'sender_name' => 'Kebun Bu Siti (Cibodas RT 03)',
                 'receiver_name' => 'Kios Sayur Berkah (Pasar Panorama)',
                 'commodity_info' => 'Kentang Granola Grade A (600 kg)',
@@ -65,14 +65,14 @@ class LogisticsSeeder extends Seeder
                 'weight_kg' => 200,
                 'distance_km' => 5.5,
                 'shipping_method' => 'mitra_pengangkut',
-                'shipping_cost' => LogisticsShipment::calculateMitraFee(5.5), // 50000 + 6 * 5000 = 80000
+                'shipping_cost' => LogisticsShipment::calculateMitraFee(5.5),
                 'status' => 'diproses',
                 'document_path' => 'logistics/surat_jalan_004.png',
                 'notes' => 'Muatan dijadwalkan pickup sore hari pukul 16.00 WIB.',
             ],
             [
                 'tracking_code' => 'LF-LOG-20261105-BKL5',
-                'mitra_id' => null, // ambil sendiri
+                'mitra_id' => null,
                 'sender_name' => 'Kelompok Tani Cikahuripan Lembang',
                 'receiver_name' => 'Resto Alam Sunda Lembang',
                 'commodity_info' => 'Brokoli Hijau Grade A (100 kg)',

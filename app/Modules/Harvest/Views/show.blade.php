@@ -27,7 +27,7 @@
                 <div class="col-md-5">
                     <div class="card border-0 bg-light rounded-3 overflow-hidden text-center">
                         @if($harvest->photo_path && file_exists(public_path('storage/' . $harvest->photo_path)))
-                            <img src="{{ asset('storage/' . $harvest->photo_path) }}" 
+                            <img src="{{ asset('storage/' . $harvest->photo_path) }}"
                                  alt="{{ $harvest->commodity }}" class="img-fluid w-100 object-fit-cover shadow-sm">
                             <div class="p-2 bg-white small text-muted border-top">
                                 <i class="fas fa-file-image text-primary me-1"></i> Path: <code>storage/app/public/{{ $harvest->photo_path }}</code>

@@ -75,7 +75,6 @@ class AuthController extends Controller
             'password.min' => 'Kata sandi minimal 6 karakter.',
         ]);
 
-        // Koordinat default Lembang
         $defaultCoordinates = [
             'petani' => ['lat' => -6.7950, 'lng' => 107.6350],
             'pembeli' => ['lat' => -6.8110, 'lng' => 107.6170],
@@ -93,7 +92,7 @@ class AuthController extends Controller
             'address' => $validated['address'],
             'lat' => $coords['lat'],
             'lng' => $coords['lng'],
-            'is_verified' => true, // default verified untuk kemudahan praktikum
+            'is_verified' => true,
             'delivery_available' => $validated['role'] === 'petani',
             'delivery_radius' => 5.0,
             'delivery_fee' => 25000,

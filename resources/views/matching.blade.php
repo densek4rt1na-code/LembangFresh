@@ -32,7 +32,7 @@
 
         <div class="col-lg-6">
             <div class="card border-0 shadow-sm rounded-4 bg-white p-4 h-100">
-                <!-- Header Permintaan Pembeli -->
+
                 <div class="d-flex justify-content-between align-items-start mb-3 pb-3 border-bottom">
                     <div>
                         <span class="badge bg-info text-white rounded-pill px-3 py-1 mb-1">
@@ -50,7 +50,6 @@
                     </div>
                 </div>
 
-                <!-- Hasil Komoditas Petani yang Cocok -->
                 <h6 class="fw-bold text-dark mb-2">
                     <i class="fas fa-check-circle text-success me-1"></i> Pasokan Petani yang Cocok (MATCH):
                 </h6>
@@ -96,7 +95,7 @@
                                         <div class="mt-2 pt-1 border-top d-flex justify-content-between text-muted" style="font-size: 0.8rem;">
                                             <span><i class="fas fa-location-arrow text-danger me-1"></i> Jarak GIS: <strong>{{ $harvest->gis_distance }} km</strong></span>
                                             <span>
-                                                Antar Petani: 
+                                                Antar Petani:
                                                 @if(!empty($harvest->farmer_can_deliver))
                                                     <span class="text-success fw-bold"><i class="fas fa-check-circle"></i> Tersedia (≤ {{ $harvest->farmer->delivery_radius }} km)</span>
                                                 @else

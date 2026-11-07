@@ -15,13 +15,12 @@
     </div>
 </div>
 
-<!-- Filter Pencarian -->
 <div class="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white">
     <form action="{{ route('harvests.index') }}" method="GET" class="row g-2 align-items-center">
         <div class="col-md-4">
             <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-search text-muted"></i></span>
-                <input type="text" name="search" class="form-control bg-light" 
+                <input type="text" name="search" class="form-control bg-light"
                        placeholder="Cari nama komoditas..." value="{{ request('search') }}">
             </div>
         </div>
@@ -52,7 +51,6 @@
     </form>
 </div>
 
-<!-- Tabel Data Komoditas Panen -->
 <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0">
@@ -69,17 +67,17 @@
                 </tr>
             </thead>
             <tbody>
-                {{-- Directive Blade: forelse untuk perulangan data panen --}}
+
                 @forelse($harvests as $item)
                     <tr>
                         <td class="ps-3">
                             @if($item->photo_path && file_exists(public_path('storage/' . $item->photo_path)))
-                                <img src="{{ asset('storage/' . $item->photo_path) }}" 
-                                     alt="{{ $item->commodity }}" 
-                                     class="rounded-3 object-fit-cover shadow-sm border" 
+                                <img src="{{ asset('storage/' . $item->photo_path) }}"
+                                     alt="{{ $item->commodity }}"
+                                     class="rounded-3 object-fit-cover shadow-sm border"
                                      style="width: 55px; height: 55px;">
                             @else
-                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center text-muted border" 
+                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center text-muted border"
                                      style="width: 55px; height: 55px;">
                                     <i class="fas fa-image"></i>
                                 </div>
@@ -153,3 +151,4 @@
     @endif
 </div>
 @endsection
+

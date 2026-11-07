@@ -15,13 +15,12 @@
     </div>
 </div>
 
-<!-- Filter Pencarian AJAX & Status Real-time -->
 <div class="card border-0 shadow-sm rounded-3 p-3 mb-4 bg-white">
     <div class="row g-2 align-items-center">
         <div class="col-md-5">
             <div class="input-group">
                 <span class="input-group-text bg-light"><i class="fas fa-search text-muted"></i></span>
-                <input type="text" id="ajaxSearch" class="form-control bg-light" 
+                <input type="text" id="ajaxSearch" class="form-control bg-light"
                        placeholder="Cari kode tracking, pengirim, penerima, atau komoditas..." onkeyup="loadData()">
             </div>
         </div>
@@ -46,10 +45,8 @@
     </div>
 </div>
 
-<!-- Alert Notifikasi Interaktif AJAX -->
 <div id="ajaxAlertContainer"></div>
 
-<!-- Tabel Data Distribusi Pengiriman -->
 <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
     <div class="table-responsive">
         <table class="table table-hover align-middle mb-0" id="shipmentsTable">
@@ -66,7 +63,7 @@
                 </tr>
             </thead>
             <tbody id="tableBody">
-                <!-- Diisi secara dinamis -->
+
                 <tr>
                     <td colspan="8" class="text-center py-5">
                         <div class="spinner-border text-forest" role="status">
@@ -80,9 +77,6 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- MODAL 1: Tambah Pengiriman Baru            -->
-<!-- ========================================== -->
 <div class="modal fade" id="modalCreate" tabindex="-1" aria-labelledby="modalCreateLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content rounded-4 border-0 shadow">
@@ -163,7 +157,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <!-- Input Upload File Berkas -->
+
                             <label class="form-label fw-semibold">Unggah Berkas Surat Jalan / Bukti: <span class="text-danger">*</span></label>
                             <input type="file" name="document_file" class="form-control" required accept="image/*,application/pdf">
                             <div class="form-text small">Dapat berupa foto bukti pickup atau PDF surat jalan (Maks 3 MB).</div>
@@ -186,9 +180,6 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- MODAL 2: Ubah Data Pengiriman (AJAX UPDATE)-->
-<!-- ========================================== -->
 <div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalEditLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content rounded-4 border-0 shadow">
@@ -262,7 +253,7 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <!-- Input Ganti File AJAX -->
+
                             <label class="form-label fw-semibold">Ganti Berkas Dokumen (Opsional):</label>
                             <input type="file" name="document_file" class="form-control" accept="image/*,application/pdf">
                             <div class="form-text small" id="editFileIndicator">Kosongkan jika tidak ingin mengganti berkas saat ini.</div>
@@ -285,9 +276,6 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- MODAL 3: Buka Berkas & Pratinjau Dokumen   -->
-<!-- ========================================== -->
 <div class="modal fade" id="modalViewDoc" tabindex="-1" aria-labelledby="modalViewDocLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content rounded-4 border-0 shadow">
@@ -312,7 +300,7 @@
                 </div>
 
                 <div id="docPreviewContainer" class="border rounded-3 p-2 bg-light mb-3" style="min-height: 250px;">
-                    <!-- Gambar / Iframe PDF dimuat secara dinamis -->
+
                 </div>
 
                 <div class="d-flex justify-content-center gap-2">
@@ -388,9 +376,6 @@
         return badges[status] || status;
     }
 
-    // ==========================================
-    // 1. AJAX READ: Memuat Data dari API
-    // ==========================================
     function loadData() {
         const search = document.getElementById('ajaxSearch').value;
         const status = document.getElementById('ajaxStatus').value;
@@ -442,10 +427,10 @@
                 </button>
             ` : '<span class="text-muted small">Tidak ada</span>';
 
-            const methodLabel = item.shipping_method === 'mitra_pengangkut' 
-                ? '<span class="badge bg-primary text-white">Mitra Pickup</span>' 
-                : (item.shipping_method === 'antar_petani' 
-                    ? '<span class="badge bg-success text-white">Antar Petani</span>' 
+            const methodLabel = item.shipping_method === 'mitra_pengangkut'
+                ? '<span class="badge bg-primary text-white">Mitra Pickup</span>'
+                : (item.shipping_method === 'antar_petani'
+                    ? '<span class="badge bg-success text-white">Antar Petani</span>'
                     : '<span class="badge bg-secondary text-white">Ambil Sendiri</span>');
 
             row.innerHTML = `
@@ -486,9 +471,6 @@
         });
     }
 
-    // ==========================================
-    // 2. AJAX CREATE: Upload File & Simpan Baru
-    // ==========================================
     function openCreateModal() {
         document.getElementById('formCreate').reset();
         document.getElementById('createErrors').classList.add('d-none');
@@ -518,7 +500,7 @@
                 if (response.success) {
                     bootstrap.Modal.getInstance(document.getElementById('modalCreate')).hide();
                     showAjaxAlert(response.message, 'success');
-                    loadData(); // Segarkan tabel tanpa reload halaman
+                    loadData();
                 }
             },
             error: function(xhr) {
@@ -542,9 +524,6 @@
         });
     }
 
-    // ==========================================
-    // 3. AJAX EDIT: Ambil Data & Perbarui
-    // ==========================================
     function openEditModal(id) {
         const errBox = document.getElementById('editErrors');
         errBox.classList.add('d-none');
@@ -628,9 +607,6 @@
         });
     }
 
-    // ==========================================
-    // 4. AJAX DELETE: Hapus Data & File Storage
-    // ==========================================
     function deleteShipment(id, code) {
         if (!confirm(`Apakah Anda yakin ingin menghapus pengiriman [${code}]? Berkas surat jalan pada disk storage juga akan otomatis dihapus.`)) {
             return;
@@ -653,9 +629,6 @@
         });
     }
 
-    // ==========================================
-    // 5. FITUR WAJIB: BUKA KEMBALI BERKAS UPLOAD
-    // ==========================================
     function openDocModal(id) {
         $.ajax({
             url: `/logistics/api/${id}`,
@@ -696,7 +669,6 @@
         });
     }
 
-    // Panggil loadData saat halaman dimuat
     document.addEventListener("DOMContentLoaded", function() {
         loadData();
     });

@@ -49,7 +49,7 @@ class LembangFreshTest extends TestCase
 
     public function test_user_authentication_flow(): void
     {
-        // 1. Register new user
+
         $email = 'petani_baru_' . time() . '@lembangfresh.test';
         $registerResponse = $this->post(route('register.post'), [
             'name' => 'Petani Baru Lembang',
@@ -68,12 +68,10 @@ class LembangFreshTest extends TestCase
         $this->assertNotNull($user);
         $this->assertTrue(Hash::check('secret123', $user->password));
 
-        // 2. Logout
         $logoutResponse = $this->post(route('logout'));
         $logoutResponse->assertRedirect(route('login'));
         $this->assertGuest();
 
-        // 3. Login
         $loginResponse = $this->post(route('login.post'), [
             'email' => $email,
             'password' => 'secret123',
@@ -88,13 +86,10 @@ class LembangFreshTest extends TestCase
         $mitra = User::where('role', 'mitra')->first();
         $admin = User::where('role', 'admin')->first();
 
-        // Petani cannot access Logistics AJAX module
         $this->actingAs($petani)->get(route('logistics.index'))->assertStatus(403);
 
-        // Mitra cannot access Harvest Synchronous module
         $this->actingAs($mitra)->get(route('harvests.index'))->assertStatus(403);
 
-        // Admin can access both
         $this->actingAs($admin)->get(route('harvests.index'))->assertStatus(200);
         $this->actingAs($admin)->get(route('logistics.index'))->assertStatus(200);
     }
@@ -105,7 +100,6 @@ class LembangFreshTest extends TestCase
 
         $photo = UploadedFile::fake()->image('wortel_super.jpg', 600, 400);
 
-        // CREATE (Store with photo upload)
         $storeResponse = $this->actingAs($petani)->post(route('harvests.store'), [
             'commodity' => 'Wortel Super Test Unit',
             'variety' => 'Super Brastagi',
@@ -125,10 +119,8 @@ class LembangFreshTest extends TestCase
         $this->assertNotNull($harvest->photo_path);
         Storage::disk('public')->assertExists($harvest->photo_path);
 
-        // READ (Show)
         $this->actingAs($petani)->get(route('harvests.show', $harvest->id))->assertStatus(200);
 
-        // UPDATE (with new photo)
         $newPhoto = UploadedFile::fake()->image('wortel_baru.jpg', 600, 400);
         $oldPath = $harvest->photo_path;
 
@@ -147,11 +139,10 @@ class LembangFreshTest extends TestCase
         $updateResponse->assertRedirect(route('harvests.index'));
         $harvest->refresh();
         $this->assertEquals('Wortel Super Updated', $harvest->commodity);
-        // Old photo should be removed from disk, new photo exists
+
         Storage::disk('public')->assertMissing($oldPath);
         Storage::disk('public')->assertExists($harvest->photo_path);
 
-        // DESTROY (Delete and verify file removed from storage)
         $currentPath = $harvest->photo_path;
         $deleteResponse = $this->actingAs($petani)->delete(route('harvests.destroy', $harvest->id));
         $deleteResponse->assertRedirect(route('harvests.index'));
@@ -166,7 +157,6 @@ class LembangFreshTest extends TestCase
 
         $document = UploadedFile::fake()->image('surat_jalan_test.png', 800, 600);
 
-        // 1. AJAX CREATE (POST /logistics/api/store)
         $response = $this->actingAs($mitra)->postJson(route('logistics.api.store'), [
             'sender_name' => 'Kebun Cikidang Pak Agus',
             'receiver_name' => 'Resto Sindang Reret Lembang',
@@ -189,17 +179,14 @@ class LembangFreshTest extends TestCase
         $this->assertNotNull($shipment->document_path);
         Storage::disk('public')->assertExists($shipment->document_path);
 
-        // 2. AJAX READ (GET /logistics/api/{id})
         $readResponse = $this->actingAs($mitra)->getJson(route('logistics.api.show', $shipmentId));
         $readResponse->assertStatus(200);
         $readResponse->assertJsonPath('success', true);
         $readResponse->assertJsonPath('data.sender_name', 'Kebun Cikidang Pak Agus');
 
-        // 3. FITUR WAJIB: BUKA KEMBALI BERKAS (DOWNLOAD ENDPOINT)
         $downloadResponse = $this->actingAs($mitra)->get(route('logistics.download', $shipmentId));
         $downloadResponse->assertStatus(200);
 
-        // 4. AJAX UPDATE (POST /logistics/api/{id}/update)
         $updateResponse = $this->actingAs($mitra)->postJson(route('logistics.api.update', $shipmentId), [
             'sender_name' => 'Kebun Cikidang Pak Agus (Updated)',
             'receiver_name' => 'Resto Sindang Reret Lembang',
@@ -212,7 +199,6 @@ class LembangFreshTest extends TestCase
         $updateResponse->assertStatus(200);
         $updateResponse->assertJsonPath('success', true);
 
-        // 5. AJAX DELETE (DELETE /logistics/api/{id})
         $docPath = $shipment->document_path;
         $deleteResponse = $this->actingAs($mitra)->deleteJson(route('logistics.api.destroy', $shipmentId));
         $deleteResponse->assertStatus(200);
@@ -225,8 +211,22 @@ class LembangFreshTest extends TestCase
     public function test_order_creation_with_mitra_integrates_with_logistics(): void
     {
         $buyer = User::where('role', 'pembeli')->first();
-        $harvest = Harvest::where('status', 'tersedia')->first();
-        $harvest->update(['quantity' => 100]); // Pastikan stok mencukupi untuk pengujian
+        $harvest = Harvest::where('status', 'tersedia')->first() ?? Harvest::first();
+        if (!$harvest) {
+            $farmer = User::where('role', 'petani')->first();
+            $harvest = Harvest::create([
+                'farmer_id' => $farmer->id,
+                'commodity' => 'Wortel Brastagi Super',
+                'grade' => 'A',
+                'marketing_channel' => 'Pasar Modern',
+                'quantity' => 100,
+                'price_per_kg' => 12000,
+                'harvest_date' => now()->toDateString(),
+                'status' => 'tersedia',
+            ]);
+        } else {
+            $harvest->update(['quantity' => 100, 'status' => 'tersedia']);
+        }
 
         $initialQuantity = $harvest->quantity;
 
@@ -246,13 +246,11 @@ class LembangFreshTest extends TestCase
         $this->assertEquals(15, $order->quantity);
         $this->assertEquals('mitra_pengangkut', $order->delivery_method);
 
-        // Verify logistics shipment was created
         $shipment = LogisticsShipment::where('notes', 'like', '%' . $order->order_number . '%')->first();
         $this->assertNotNull($shipment);
         $this->assertEquals(15, $shipment->weight_kg);
         $this->assertEquals('mitra_pengangkut', $shipment->shipping_method);
 
-        // Verify stock deducted
         $harvest->refresh();
         $this->assertEquals($initialQuantity - 15, $harvest->quantity);
     }

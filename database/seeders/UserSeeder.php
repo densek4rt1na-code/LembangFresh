@@ -9,12 +9,10 @@ use Faker\Factory as Faker;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
     public function run(): void
     {
-        // 1. Akun Aktor Utama LembangFresh sesuai dokumen SDD
+
         $primaryUsers = [
             [
                 'name' => 'Admin LembangFresh',
@@ -60,7 +58,7 @@ class UserSeeder extends Seeder
                 'lat' => -6.8300,
                 'lng' => 107.6100,
                 'is_verified' => true,
-                'delivery_available' => false, // Tidak mengantar sendiri, menggunakan mitra
+                'delivery_available' => false,
                 'delivery_radius' => 3.0,
                 'delivery_fee' => 20000,
                 'vehicle_desc' => null,
@@ -107,7 +105,6 @@ class UserSeeder extends Seeder
             User::updateOrCreate(['email' => $userData['email']], $userData);
         }
 
-        // 2. Minimal 5 Akun Dummy Menggunakan Faker (Wajib Sesuai Ketentuan Modul Auth)
         $faker = Faker::create('id_ID');
         $dummyRoles = ['petani', 'pembeli', 'mitra', 'petani', 'pembeli'];
         $lembangVillages = ['Cikahuripan', 'Kayuambon', 'Jayagiri', 'Gudangkahuripan', 'Wangunsari'];
@@ -136,3 +133,4 @@ class UserSeeder extends Seeder
         }
     }
 }
+

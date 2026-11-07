@@ -8,18 +8,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
         if (!$request->user()) {
             return redirect()->route('login')->with('error', 'Silakan masuk terlebih dahulu.');
         }
 
-        // If multiple roles passed, check if user's role matches any
         $userRole = $request->user()->role;
         $allowedRoles = [];
 

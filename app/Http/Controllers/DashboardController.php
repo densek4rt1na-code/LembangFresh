@@ -16,7 +16,6 @@ class DashboardController extends Controller
     {
         $user = Auth::user();
 
-        // Admin Stats
         $adminStats = [
             'total_farmers' => User::where('role', 'petani')->count(),
             'total_buyers' => User::where('role', 'pembeli')->count(),
@@ -26,15 +25,12 @@ class DashboardController extends Controller
             'total_shipments' => LogisticsShipment::count(),
         ];
 
-        // All users for admin management and GIS
         $allUsers = User::where('role', '!=', 'admin')->get();
 
-        // Farmer's data
         $myHarvests = $user->isPetani()
             ? Harvest::where('farmer_id', $user->id)->latest()->take(5)->get()
             : collect();
 
-        // Matching demands for this farmer's commodities
         $matchingDemands = collect();
         if ($user->isPetani()) {
             $myCommodities = Harvest::where('farmer_id', $user->id)->pluck('commodity')->unique();
@@ -44,7 +40,6 @@ class DashboardController extends Controller
                 ->get();
         }
 
-        // Buyer's demands & orders
         $myDemands = $user->isPembeli()
             ? Demand::where('buyer_id', $user->id)->latest()->get()
             : collect();
@@ -53,19 +48,16 @@ class DashboardController extends Controller
             ? Order::with(['harvest.farmer', 'mitra'])->where('buyer_id', $user->id)->latest()->get()
             : collect();
 
-        // Farmer's received orders
         $receivedOrders = $user->isPetani()
             ? Order::with(['buyer', 'harvest'])->whereHas('harvest', function ($q) use ($user) {
                 $q->where('farmer_id', $user->id);
             })->latest()->get()
             : collect();
 
-        // Admin all orders
         $allOrders = $user->isAdmin()
             ? Order::with(['buyer', 'harvest.farmer', 'mitra'])->latest()->take(10)->get()
             : collect();
 
-        // Mitra's shipments
         $myShipments = $user->isMitra()
             ? LogisticsShipment::where('mitra_id', $user->id)->orWhereNull('mitra_id')->latest()->take(5)->get()
             : collect();
@@ -97,7 +89,7 @@ class DashboardController extends Controller
             if ($toStatus === 'diproses' && $order->status === 'dibuat') $allowed = true;
             if ($toStatus === 'ditolak' && $order->status === 'dibuat') {
                 $allowed = true;
-                // Kembalikan stok panen
+
                 $order->harvest->increment('quantity', $order->quantity);
             }
             if ($toStatus === 'dikirim' && $order->status === 'diproses') $allowed = true;

@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('buyer_id')->constrained('users')->onDelete('cascade');
             $table->string('commodity');
-            $table->integer('quantity'); // kg
+            $table->integer('quantity');
             $table->enum('grade', ['A', 'B', 'C'])->default('B');
             $table->integer('max_price_per_kg');
             $table->text('notes')->nullable();

@@ -21,7 +21,7 @@
                     <label for="name" class="form-label fw-semibold">Nama Lengkap / Nama Usaha:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-light text-muted"><i class="fas fa-user"></i></span>
-                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" 
+                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
                                name="name" value="{{ old('name') }}" required autofocus placeholder="Contoh: Kelompok Tani Mandiri / Resto Lembang">
                     </div>
                     @error('name')
@@ -34,7 +34,7 @@
                         <label for="email" class="form-label fw-semibold">Alamat Email:</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light text-muted"><i class="fas fa-envelope"></i></span>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
                                    name="email" value="{{ old('email') }}" required placeholder="email@domain.com">
                         </div>
                         @error('email')
@@ -46,7 +46,7 @@
                         <label for="phone" class="form-label fw-semibold">Nomor WhatsApp / Telp:</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light text-muted"><i class="fas fa-phone"></i></span>
-                            <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" 
+                            <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror"
                                    name="phone" value="{{ old('phone') }}" required placeholder="08123456789">
                         </div>
                         @error('phone')
@@ -59,7 +59,7 @@
                     <label for="role" class="form-label fw-semibold">Pilih Peran Pengguna (Role):</label>
                     <div class="row g-2">
                         <div class="col-md-4">
-                            <input type="radio" class="btn-check" name="role" id="rolePetani" value="petani" 
+                            <input type="radio" class="btn-check" name="role" id="rolePetani" value="petani"
                                    {{ old('role', 'petani') === 'petani' ? 'checked' : '' }}>
                             <label class="btn btn-outline-success w-100 p-3 text-start h-100" for="rolePetani">
                                 <div class="fw-bold"><i class="fas fa-seedling me-1"></i> Petani</div>
@@ -92,7 +92,7 @@
                     <label for="address" class="form-label fw-semibold">Alamat Lokasi di Kecamatan Lembang:</label>
                     <div class="input-group">
                         <span class="input-group-text bg-light text-muted"><i class="fas fa-map-marker-alt"></i></span>
-                        <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" 
+                        <input id="address" type="text" class="form-control @error('address') is-invalid @enderror"
                                name="address" value="{{ old('address') }}" required placeholder="Contoh: Jl. Maribaya No. 20 / Desa Cikidang">
                     </div>
                     @error('address')
@@ -105,7 +105,7 @@
                         <label for="password" class="form-label fw-semibold">Kata Sandi:</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light text-muted"><i class="fas fa-lock"></i></span>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
                                    name="password" required placeholder="Minimal 6 karakter">
                         </div>
                         @error('password')
@@ -117,7 +117,7 @@
                         <label for="password_confirmation" class="form-label fw-semibold">Ulangi Kata Sandi:</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light text-muted"><i class="fas fa-lock"></i></span>
-                            <input id="password_confirmation" type="password" class="form-control" 
+                            <input id="password_confirmation" type="password" class="form-control"
                                    name="password_confirmation" required placeholder="Konfirmasi sandi">
                         </div>
                     </div>
@@ -129,10 +129,11 @@
             </form>
 
             <div class="mt-4 pt-3 border-top text-center small text-muted">
-                Sudah memiliki akun? 
+                Sudah memiliki akun?
                 <a href="{{ route('login') }}" class="text-forest fw-bold text-decoration-none">Masuk ke Sistem</a>
             </div>
         </div>
     </div>
 </div>
 @endsection
+

@@ -20,7 +20,7 @@
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         <label for="name" class="form-label fw-semibold">Nama Lengkap / Nama Usaha: <span class="text-danger">*</span></label>
-                        <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" 
+                        <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror"
                                value="{{ old('name', $user->name) }}" required>
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -36,7 +36,7 @@
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         <label for="phone" class="form-label fw-semibold">Nomor WhatsApp / Telepon: <span class="text-danger">*</span></label>
-                        <input type="text" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror" 
+                        <input type="text" name="phone" id="phone" class="form-control @error('phone') is-invalid @enderror"
                                value="{{ old('phone', $user->phone) }}" required>
                         @error('phone')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -45,7 +45,7 @@
 
                     <div class="col-md-6">
                         <label for="address" class="form-label fw-semibold">Alamat di Kecamatan Lembang: <span class="text-danger">*</span></label>
-                        <input type="text" name="address" id="address" class="form-control @error('address') is-invalid @enderror" 
+                        <input type="text" name="address" id="address" class="form-control @error('address') is-invalid @enderror"
                                value="{{ old('address', $user->address) }}" required>
                         @error('address')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -57,18 +57,17 @@
                     <div class="row g-3 mb-3 p-3 bg-light rounded-3 border">
                         <div class="col-md-8">
                             <label for="vehicle_desc" class="form-label fw-semibold">Deskripsi Kendaraan Armada:</label>
-                            <input type="text" name="vehicle_desc" id="vehicle_desc" class="form-control" 
+                            <input type="text" name="vehicle_desc" id="vehicle_desc" class="form-control"
                                    value="{{ old('vehicle_desc', $user->vehicle_desc) }}" placeholder="Contoh: Pickup Suzuki Carry (D 1234 XY)">
                         </div>
                         <div class="col-md-4">
                             <label for="vehicle_capacity" class="form-label fw-semibold">Kapasitas Muatan (kg):</label>
-                            <input type="number" name="vehicle_capacity" id="vehicle_capacity" class="form-control" 
+                            <input type="number" name="vehicle_capacity" id="vehicle_capacity" class="form-control"
                                    value="{{ old('vehicle_capacity', $user->vehicle_capacity) }}" min="0">
                         </div>
                     </div>
                 @endif
 
-                <!-- Pemilih Koordinat GIS Interaktif -->
                 <div class="mb-4">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                         <label class="form-label fw-semibold m-0">
@@ -83,14 +82,14 @@
                         <div class="col-6">
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text bg-light">Latitude</span>
-                                <input type="text" name="lat" id="latInput" class="form-control bg-light" 
+                                <input type="text" name="lat" id="latInput" class="form-control bg-light"
                                        value="{{ old('lat', $user->lat ?? -6.8120) }}" readonly>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="input-group input-group-sm">
                                 <span class="input-group-text bg-light">Longitude</span>
-                                <input type="text" name="lng" id="lngInput" class="form-control bg-light" 
+                                <input type="text" name="lng" id="lngInput" class="form-control bg-light"
                                        value="{{ old('lng', $user->lng ?? 107.6180) }}" readonly>
                             </div>
                         </div>
@@ -141,3 +140,4 @@
     });
 </script>
 @endpush
+

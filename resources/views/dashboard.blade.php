@@ -3,11 +3,11 @@
 @section('title', 'Dashboard ' . ucfirst(auth()->user()->role) . ' - LembangFresh')
 
 @section('content')
-<!-- Header Sambutan Pengguna Berdasarkan Role -->
+
 <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
     <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
         <div class="d-flex align-items-center">
-            <div class="bg-forest text-lime fw-bold rounded-circle d-flex align-items-center justify-content-center me-3" 
+            <div class="bg-forest text-lime fw-bold rounded-circle d-flex align-items-center justify-content-center me-3"
                  style="width: 58px; height: 58px; font-size: 1.5rem;">
                 {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
             </div>
@@ -38,9 +38,6 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- 1. DASHBOARD KHUSUS ROLE: ADMIN            -->
-<!-- ========================================== -->
 @if(auth()->user()->isAdmin())
     <div class="row g-3 mb-4">
         <div class="col-6 col-lg-2">
@@ -81,7 +78,6 @@
         </div>
     </div>
 
-    <!-- Semua Transaksi Pesanan Terbaru untuk Admin -->
     <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-bold text-dark m-0"><i class="fas fa-receipt text-forest me-2"></i> Transaksi Pesanan LembangFresh Terkini</h5>
@@ -128,7 +124,6 @@
         </div>
     </div>
 
-    <!-- Verifikasi Pengguna oleh Admin -->
     <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-bold text-dark m-0"><i class="fas fa-user-check text-success me-2"></i> Kelola & Verifikasi Pengguna LembangFresh</h5>
@@ -176,19 +171,15 @@
         </div>
     </div>
 
-    <!-- Peta Sebaran Pengguna di Kecamatan Lembang -->
     <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
         <h5 class="fw-bold text-dark mb-3"><i class="fas fa-map-marked-alt text-forest me-2"></i> GIS Dashboard: Sebaran Aktor di Kecamatan Lembang</h5>
         <div id="adminGisMap" style="height: 380px; width: 100%; border-radius: 12px;"></div>
     </div>
 @endif
 
-<!-- ========================================== -->
-<!-- 2. DASHBOARD KHUSUS ROLE: PETANI           -->
-<!-- ========================================== -->
 @if(auth()->user()->isPetani())
     <div class="row g-4 mb-4">
-        <!-- Pengaturan Pengantaran Petani Sesuai SDD Bab 6.2 -->
+
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm rounded-4 bg-white p-4 h-100">
                 <h5 class="fw-bold text-dark mb-3"><i class="fas fa-truck text-forest me-2"></i> Pengaturan Antar Petani</h5>
@@ -197,7 +188,7 @@
                 <form action="{{ route('farmer.delivery.update') }}" method="POST">
                     @csrf
                     <div class="form-check form-switch mb-3 p-3 bg-light rounded-3">
-                        <input class="form-check-input ms-0 me-3" type="checkbox" role="switch" 
+                        <input class="form-check-input ms-0 me-3" type="checkbox" role="switch"
                                name="delivery_available" value="1" id="deliverSwitch"
                                {{ auth()->user()->delivery_available ? 'checked' : '' }}>
                         <label class="form-check-label fw-bold text-dark" for="deliverSwitch">
@@ -209,12 +200,12 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold small">Radius Maks (km):</label>
-                            <input type="number" step="0.5" name="delivery_radius" class="form-control" 
+                            <input type="number" step="0.5" name="delivery_radius" class="form-control"
                                    value="{{ auth()->user()->delivery_radius ?? 5.0 }}" required min="0.5" max="50">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label fw-semibold small">Tarif Antar Tetap (Rp):</label>
-                            <input type="number" name="delivery_fee" class="form-control" 
+                            <input type="number" name="delivery_fee" class="form-control"
                                    value="{{ auth()->user()->delivery_fee ?? 25000 }}" required min="0">
                         </div>
                     </div>
@@ -226,7 +217,6 @@
             </div>
         </div>
 
-        <!-- Ringkasan Hasil Panen Petani -->
         <div class="col-lg-7">
             <div class="card border-0 shadow-sm rounded-4 bg-white p-4 h-100">
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -272,7 +262,6 @@
         </div>
     </div>
 
-    <!-- Pesanan Masuk dari Pembeli -->
     <div class="card border-0 shadow-sm rounded-4 bg-white p-4 mb-4">
         <h5 class="fw-bold text-dark mb-3"><i class="fas fa-shopping-basket text-success me-2"></i> Pesanan Masuk dari Pembeli</h5>
         <div class="table-responsive">
@@ -339,7 +328,6 @@
         </div>
     </div>
 
-    <!-- Permintaan Pembeli yang Cocok (Supply-Demand Matching) -->
     <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
         <h5 class="fw-bold text-dark mb-3"><i class="fas fa-handshake text-forest me-2"></i> Kebutuhan Pembeli yang Cocok dengan Komoditas Anda</h5>
         <div class="table-responsive">
@@ -375,12 +363,9 @@
     </div>
 @endif
 
-<!-- ========================================== -->
-<!-- 3. DASHBOARD KHUSUS ROLE: PEMBELI / UMKM   -->
-<!-- ========================================== -->
 @if(auth()->user()->isPembeli())
     <div class="row g-4 mb-4">
-        <!-- Pasang Kebutuhan Baru -->
+
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm rounded-4 bg-white p-4 h-100">
                 <h5 class="fw-bold text-dark mb-3"><i class="fas fa-bullhorn text-forest me-2"></i> Pasang Kebutuhan Sayuran</h5>
@@ -425,7 +410,6 @@
             </div>
         </div>
 
-        <!-- Daftar Kebutuhan Saya -->
         <div class="col-lg-7">
             <div class="card border-0 shadow-sm rounded-4 bg-white p-4 h-100">
                 <h5 class="fw-bold text-dark mb-3"><i class="fas fa-list-alt text-primary me-2"></i> Daftar Kebutuhan Anda yang Sedang Terbuka</h5>
@@ -461,7 +445,6 @@
         </div>
     </div>
 
-    <!-- Riwayat Transaksi Pesanan Pembeli -->
     <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
         <h5 class="fw-bold text-dark mb-3"><i class="fas fa-shopping-cart text-forest me-2"></i> Riwayat Pesanan Sayuran Anda</h5>
         <div class="table-responsive">
@@ -520,9 +503,6 @@
     </div>
 @endif
 
-<!-- ========================================== -->
-<!-- 4. DASHBOARD KHUSUS ROLE: MITRA PENGANGKUT -->
-<!-- ========================================== -->
 @if(auth()->user()->isMitra())
     <div class="row g-4 mb-4">
         <div class="col-lg-5">
@@ -626,3 +606,4 @@
 </script>
 @endif
 @endpush
+

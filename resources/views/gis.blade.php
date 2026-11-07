@@ -16,7 +16,7 @@
 </div>
 
 <div class="row g-4">
-    <!-- Peta GIS Leaflet Layar Penuh -->
+
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
             <div id="gisMap" style="height: 540px; width: 100%; border-radius: 12px;"></div>
@@ -38,7 +38,6 @@
         </div>
     </div>
 
-    <!-- Panel Interaktif Simulasi Distribusi & Hitung Jarak GIS -->
     <div class="col-lg-4">
         <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
             <h5 class="fw-bold text-dark mb-3">
@@ -53,8 +52,8 @@
                 <select id="simFarmer" class="form-select form-select-sm" onchange="runSimulation()">
                     @foreach($farmers as $f)
                         @if($f->lat && $f->lng)
-                            <option value="{{ $f->id }}" 
-                                    data-lat="{{ $f->lat }}" 
+                            <option value="{{ $f->id }}"
+                                    data-lat="{{ $f->lat }}"
                                     data-lng="{{ $f->lng }}"
                                     data-name="{{ $f->name }}"
                                     data-deliver="{{ $f->delivery_available ? 1 : 0 }}"
@@ -72,8 +71,8 @@
                 <select id="simBuyer" class="form-select form-select-sm" onchange="runSimulation()">
                     @foreach($buyers as $b)
                         @if($b->lat && $b->lng)
-                            <option value="{{ $b->id }}" 
-                                    data-lat="{{ $b->lat }}" 
+                            <option value="{{ $b->id }}"
+                                    data-lat="{{ $b->lat }}"
                                     data-lng="{{ $b->lng }}"
                                     data-name="{{ $b->name }}">
                                 {{ $b->name }} ({{ $b->address ?? 'Lembang' }})
@@ -83,7 +82,6 @@
                 </select>
             </div>
 
-            <!-- Hasil Perhitungan Jarak Spasial -->
             <div class="p-3 bg-light rounded-3 mb-3 border">
                 <div class="d-flex justify-content-between align-items-center mb-1">
                     <span class="small text-muted fw-semibold">Jarak GIS Antar Titik:</span>
@@ -135,7 +133,7 @@
     }
 
     function calculateDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371; // Radius bumi dalam km
+        const R = 6371;
         const dLat = deg2rad(lat2 - lat1);
         const dLon = deg2rad(lon2 - lon1);
         const a =
@@ -171,7 +169,6 @@
         document.getElementById('simDistance').textContent = dist + ' km';
         document.getElementById('simRouteInfo').textContent = `${fName} → ${bName}`;
 
-        // Status Pengantaran Petani
         const cardPetani = document.getElementById('cardPetani');
         const simFarmerFee = document.getElementById('simFarmerFee');
         const simFarmerStatus = document.getElementById('simFarmerStatus');
@@ -186,12 +183,10 @@
             simFarmerStatus.innerHTML = `<span class="badge bg-secondary">TIDAK TERSEDIA</span> Di luar radius (${fRadius} km) / Nonaktif`;
         }
 
-        // Biaya Mitra Pengangkut
         const mitraFee = 50000 + (Math.ceil(dist) * 5000);
         document.getElementById('simMitraFee').textContent = formatRp(mitraFee);
         document.getElementById('simMitraFormula').textContent = `Tarif Dasar Rp 50.000 + (${Math.ceil(dist)} km x Rp 5.000)`;
 
-        // Gambar Rute Garis Putus-Putus di Peta
         if (routePolyline) {
             gisMap.removeLayer(routePolyline);
         }
@@ -217,7 +212,6 @@
             attribution: '&copy; OpenStreetMap kontributor'
         }).addTo(gisMap);
 
-        // Marker Petani (Warna Hijau)
         @foreach($farmers as $f)
             @if($f->lat && $f->lng)
                 L.marker([{{ $f->lat }}, {{ $f->lng }}])
@@ -242,7 +236,6 @@
             @endif
         @endforeach
 
-        // Marker Pembeli (Warna Biru / Indigo)
         @foreach($buyers as $b)
             @if($b->lat && $b->lng)
                 L.circleMarker([{{ $b->lat }}, {{ $b->lng }}], {
@@ -260,7 +253,6 @@
             @endif
         @endforeach
 
-        // Marker Mitra Pengangkut (Warna Oranye / Amber)
         @foreach($mitras as $m)
             @if($m->lat && $m->lng)
                 L.circleMarker([{{ $m->lat }}, {{ $m->lng }}], {

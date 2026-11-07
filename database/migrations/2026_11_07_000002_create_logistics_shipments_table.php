@@ -17,10 +17,10 @@ return new class extends Migration
             $table->string('commodity_info');
             $table->integer('weight_kg')->default(100);
             $table->double('distance_km', 8, 2)->default(1.0);
-            $table->string('shipping_method')->default('mitra_pengangkut'); // ambil_sendiri, antar_petani, mitra_pengangkut
+            $table->string('shipping_method')->default('mitra_pengangkut');
             $table->integer('shipping_cost')->default(55000);
             $table->enum('status', ['menunggu', 'diproses', 'diambil', 'dikirim', 'sampai_tujuan', 'selesai'])->default('menunggu');
-            $table->string('document_path')->nullable(); // Upload file surat jalan/bukti serah terima/foto pengiriman
+            $table->string('document_path')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });

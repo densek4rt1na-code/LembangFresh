@@ -5,22 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
+
     <title>@yield('title', 'LembangFresh - Sistem Informasi GIS Hortikultura Lembang')</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Bootstrap 5.3 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome 6 -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Leaflet GIS CSS -->
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
-    <!-- Custom CSS LembangFresh -->
     <style>
         :root {
             --forest-green: #245831;
@@ -119,29 +116,23 @@
 </head>
 <body class="d-flex flex-column h-100">
 
-    <!-- Partial Menu Navigasi Utama -->
     @include('partials.navbar')
 
-    <!-- Container Utama Aplikasi -->
     <main class="flex-shrink-0 my-4">
         <div class="container">
-            <!-- Komponen Pesan Notifikasi (Flash Alert) -->
+
             <x-alert />
 
-            <!-- Konten Halaman (Diwariskan ke Setiap Blade View) -->
             @yield('content')
         </div>
     </main>
 
-    <!-- Partial Footer Aplikasi -->
     @include('partials.footer')
 
-    <!-- jQuery, Bootstrap JS, Leaflet JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    
-    <!-- Setup Ajax CSRF Token -->
+
     <script>
         $.ajaxSetup({
             headers: {
@@ -153,3 +144,4 @@
     @stack('scripts')
 </body>
 </html>
+

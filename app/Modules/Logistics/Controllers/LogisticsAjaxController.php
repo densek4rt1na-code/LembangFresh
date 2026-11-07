@@ -44,8 +44,8 @@ class LogisticsAjaxController extends Controller
         }
 
         $shipments = $query->get()->map(function ($shipment) {
-            $shipment->document_url = $shipment->document_path 
-                ? asset('storage/' . $shipment->document_path) 
+            $shipment->document_url = $shipment->document_path
+                ? asset('storage/' . $shipment->document_path)
                 : null;
             return $shipment;
         });
@@ -88,11 +88,9 @@ class LogisticsAjaxController extends Controller
         }
 
         $data = $validator->validated();
-        
-        // Buat kode pelacakan otomatis
+
         $data['tracking_code'] = 'LF-LOG-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -4));
 
-        // Hitung ongkir sesuai aturan dokumen LembangFresh
         if ($data['shipping_method'] === 'ambil_sendiri') {
             $data['shipping_cost'] = 0;
         } elseif ($data['shipping_method'] === 'antar_petani') {
@@ -101,7 +99,6 @@ class LogisticsAjaxController extends Controller
             $data['shipping_cost'] = LogisticsShipment::calculateMitraFee((float) $data['distance_km']);
         }
 
-        // Upload berkas ke storage/app/public/logistics
         if ($request->hasFile('document_file')) {
             $data['document_path'] = $request->file('document_file')->store('logistics', 'public');
         }
@@ -164,7 +161,6 @@ class LogisticsAjaxController extends Controller
 
         $data = $validator->validated();
 
-        // Hitung ulang ongkos kirim
         if ($data['shipping_method'] === 'ambil_sendiri') {
             $data['shipping_cost'] = 0;
         } elseif ($data['shipping_method'] === 'antar_petani') {
@@ -173,7 +169,6 @@ class LogisticsAjaxController extends Controller
             $data['shipping_cost'] = LogisticsShipment::calculateMitraFee((float) $data['distance_km']);
         }
 
-        // Jika ada unggah berkas baru
         if ($request->hasFile('document_file')) {
             if ($shipment->document_path && Storage::disk('public')->exists($shipment->document_path)) {
                 Storage::disk('public')->delete($shipment->document_path);
@@ -197,7 +192,6 @@ class LogisticsAjaxController extends Controller
         $shipment = LogisticsShipment::findOrFail($id);
         $code = $shipment->tracking_code;
 
-        // Hapus file dari storage
         if ($shipment->document_path && Storage::disk('public')->exists($shipment->document_path)) {
             Storage::disk('public')->delete($shipment->document_path);
         }

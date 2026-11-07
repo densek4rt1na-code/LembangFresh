@@ -16,15 +16,14 @@
                 </a>
             </div>
 
-            <!-- Form Menggunakan Enctype Multipart Untuk Upload Berkas -->
             <form action="{{ route('harvests.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         <label for="commodity" class="form-label fw-semibold">Nama Komoditas Hortikultura: <span class="text-danger">*</span></label>
-                        <input type="text" name="commodity" id="commodity" 
-                               class="form-control @error('commodity') is-invalid @enderror" 
+                        <input type="text" name="commodity" id="commodity"
+                               class="form-control @error('commodity') is-invalid @enderror"
                                value="{{ old('commodity') }}" required placeholder="Contoh: Wortel, Tomat, Brokoli">
                         @error('commodity')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -33,8 +32,8 @@
 
                     <div class="col-md-6">
                         <label for="variety" class="form-label fw-semibold">Varietas / Jenis Khusus:</label>
-                        <input type="text" name="variety" id="variety" 
-                               class="form-control @error('variety') is-invalid @enderror" 
+                        <input type="text" name="variety" id="variety"
+                               class="form-control @error('variety') is-invalid @enderror"
                                value="{{ old('variety') }}" placeholder="Contoh: Brastagi Jumbo / Beef Organik">
                         @error('variety')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -46,8 +45,8 @@
                     <div class="col-md-4">
                         <label for="quantity" class="form-label fw-semibold">Jumlah Hasil Panen (kg): <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="number" name="quantity" id="quantity" 
-                                   class="form-control @error('quantity') is-invalid @enderror" 
+                            <input type="number" name="quantity" id="quantity"
+                                   class="form-control @error('quantity') is-invalid @enderror"
                                    value="{{ old('quantity') }}" min="1" required placeholder="500">
                             <span class="input-group-text">kg</span>
                         </div>
@@ -60,8 +59,8 @@
                         <label for="price_per_kg" class="form-label fw-semibold">Harga Jual per kg (Rp): <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text">Rp</span>
-                            <input type="number" name="price_per_kg" id="price_per_kg" 
-                                   class="form-control @error('price_per_kg') is-invalid @enderror" 
+                            <input type="number" name="price_per_kg" id="price_per_kg"
+                                   class="form-control @error('price_per_kg') is-invalid @enderror"
                                    value="{{ old('price_per_kg') }}" min="500" required placeholder="5000">
                         </div>
                         @error('price_per_kg')
@@ -82,7 +81,6 @@
                     </div>
                 </div>
 
-                <!-- Kotak Rekomendasi Jalur Pemasaran Dinamis Sesuai SDD Bab 4 -->
                 <div class="p-3 mb-3 rounded-3 border bg-light" id="recommendationCard">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-route text-success fs-4 me-2"></i>
@@ -97,8 +95,8 @@
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         <label for="harvest_date" class="form-label fw-semibold">Tanggal Panen: <span class="text-danger">*</span></label>
-                        <input type="date" name="harvest_date" id="harvest_date" 
-                               class="form-control @error('harvest_date') is-invalid @enderror" 
+                        <input type="date" name="harvest_date" id="harvest_date"
+                               class="form-control @error('harvest_date') is-invalid @enderror"
                                value="{{ old('harvest_date', date('Y-m-d')) }}" required>
                         @error('harvest_date')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -107,8 +105,8 @@
 
                     <div class="col-md-6">
                         <label for="ready_date" class="form-label fw-semibold">Tanggal Siap Didistribusikan: <span class="text-danger">*</span></label>
-                        <input type="date" name="ready_date" id="ready_date" 
-                               class="form-control @error('ready_date') is-invalid @enderror" 
+                        <input type="date" name="ready_date" id="ready_date"
+                               class="form-control @error('ready_date') is-invalid @enderror"
                                value="{{ old('ready_date', date('Y-m-d', strtotime('+1 day'))) }}" required>
                         @error('ready_date')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -116,18 +114,16 @@
                     </div>
                 </div>
 
-                <!-- Input Upload File Foto -->
                 <div class="mb-3">
                     <label for="photo" class="form-label fw-semibold">Unggah Foto Hasil Panen (Opsional):</label>
-                    <input type="file" name="photo" id="photo" 
-                           class="form-control @error('photo') is-invalid @enderror" 
+                    <input type="file" name="photo" id="photo"
+                           class="form-control @error('photo') is-invalid @enderror"
                            accept="image/jpeg,image/png,image/jpg,image/webp" onchange="previewImg(event)">
                     <div class="form-text small">Format file: JPG, JPEG, PNG, WEBP. Ukuran maksimal: 2048 KB (2 MB).</div>
                     @error('photo')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
 
-                    <!-- Pratinjau Gambar -->
                     <div class="mt-2 d-none" id="imgPreviewWrapper">
                         <div class="small fw-semibold text-muted mb-1">Pratinjau Foto:</div>
                         <img id="imgPreview" src="#" alt="Pratinjau" class="img-thumbnail rounded-3" style="max-height: 180px;">
@@ -136,8 +132,8 @@
 
                 <div class="mb-4">
                     <label for="description" class="form-label fw-semibold">Deskripsi / Catatan Tambahan:</label>
-                    <textarea name="description" id="description" rows="3" 
-                              class="form-control @error('description') is-invalid @enderror" 
+                    <textarea name="description" id="description" rows="3"
+                              class="form-control @error('description') is-invalid @enderror"
                               placeholder="Kondisi panen, metode tanam organik, atau ketersediaan peti kemas...">{{ old('description') }}</textarea>
                     @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>

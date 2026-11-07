@@ -11,13 +11,13 @@
 </nav>
 
 <div class="row g-4">
-    <!-- Gambar & Info Petani -->
+
     <div class="col-lg-5">
         <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-3 bg-white">
             <div class="position-relative text-center bg-light" style="min-height: 280px;">
                 @if($harvest->photo_path && file_exists(public_path('storage/' . $harvest->photo_path)))
-                    <img src="{{ asset('storage/' . $harvest->photo_path) }}" 
-                         alt="{{ $harvest->commodity }}" 
+                    <img src="{{ asset('storage/' . $harvest->photo_path) }}"
+                         alt="{{ $harvest->commodity }}"
                          class="img-fluid w-100 object-fit-cover" style="max-height: 380px;">
                 @else
                     <div class="p-5 text-muted">
@@ -67,7 +67,6 @@
         </div>
     </div>
 
-    <!-- Detail Produk & Pemesanan -->
     <div class="col-lg-7">
         <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
             <div class="d-flex justify-content-between align-items-start mb-2">
@@ -81,7 +80,6 @@
                 </div>
             </div>
 
-            <!-- Rekomendasi Jalur Pemasaran Sesuai SDD Bab 4 -->
             <div class="alert alert-light border border-success-subtle rounded-3 p-3 my-3">
                 <div class="d-flex align-items-center">
                     <i class="fas fa-route text-success fs-3 me-3"></i>
@@ -131,7 +129,6 @@
 
             <hr class="my-4">
 
-            <!-- Formulir Pemesanan Sesuai Konsep GIS & Logistik LembangFresh -->
             <h5 class="fw-bold text-dark mb-3"><i class="fas fa-shopping-cart text-forest me-2"></i> Form Pesan Komoditas</h5>
 
             @auth
@@ -146,7 +143,7 @@
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Jumlah yang Ingin Dipesan (kg):</label>
                                 <div class="input-group">
-                                    <input type="number" name="quantity" id="orderQty" class="form-control" 
+                                    <input type="number" name="quantity" id="orderQty" class="form-control"
                                            min="1" max="{{ $harvest->quantity }}" value="10" required>
                                     <span class="input-group-text">kg</span>
                                 </div>
@@ -167,13 +164,13 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-semibold">Pilih Jalur Distribusi & Pengiriman:</label>
-                            
+
                             @foreach($deliveryOptions as $methodKey => $opt)
                                 <div class="card p-3 mb-2 border {{ $opt['available'] ? 'border-light-subtle' : 'opacity-50 bg-light' }}">
                                     <div class="form-check d-flex align-items-center justify-content-between">
                                         <div>
-                                            <input class="form-check-input delivery-radio" type="radio" name="delivery_method" 
-                                                   id="method_{{ $methodKey }}" value="{{ $methodKey }}" 
+                                            <input class="form-check-input delivery-radio" type="radio" name="delivery_method"
+                                                   id="method_{{ $methodKey }}" value="{{ $methodKey }}"
                                                    data-fee="{{ $opt['fee'] }}"
                                                    {{ $loop->first ? 'checked' : '' }}
                                                    {{ !$opt['available'] ? 'disabled' : '' }} required>
@@ -199,7 +196,6 @@
                             @endforeach
                         </div>
 
-                        <!-- Ringkasan Total Pembayaran -->
                         <div class="p-3 bg-forest text-white rounded-3 mb-3">
                             <div class="d-flex justify-content-between mb-1 small">
                                 <span>Subtotal Produk (<span id="summaryQty">10</span> kg x Rp {{ number_format($harvest->price_per_kg, 0, ',', '.') }}):</span>

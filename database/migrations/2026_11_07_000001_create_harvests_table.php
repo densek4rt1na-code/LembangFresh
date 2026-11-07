@@ -11,15 +11,15 @@ return new class extends Migration
         Schema::create('harvests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('farmer_id')->constrained('users')->onDelete('cascade');
-            $table->string('commodity'); // E.g. Wortel, Tomat, Brokoli, Kentang, Selada
-            $table->string('variety')->nullable(); // E.g. Brastagi, Granola, Cherry
-            $table->integer('quantity'); // kg
-            $table->integer('price_per_kg'); // Rp
+            $table->string('commodity');
+            $table->string('variety')->nullable();
+            $table->integer('quantity');
+            $table->integer('price_per_kg');
             $table->enum('grade', ['A', 'B', 'C'])->default('B');
-            $table->string('marketing_channel'); // Pasar Normal, Pasar Alternatif, Jalur Pengolahan
+            $table->string('marketing_channel');
             $table->date('harvest_date');
             $table->date('ready_date');
-            $table->string('photo_path')->nullable(); // Upload file gambar
+            $table->string('photo_path')->nullable();
             $table->text('description')->nullable();
             $table->enum('status', ['tersedia', 'sebagian_terjual', 'habis'])->default('tersedia');
             $table->timestamps();

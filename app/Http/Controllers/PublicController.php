@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Auth;
 
 class PublicController extends Controller
 {
-    // Haversine distance in km
+
     public static function calculateDistance(?float $lat1, ?float $lng1, ?float $lat2, ?float $lng2): ?float
     {
         if ($lat1 === null || $lng1 === null || $lat2 === null || $lng2 === null) {
             return null;
         }
 
-        $earthRadius = 6371; // km
+        $earthRadius = 6371;
         $dLat = deg2rad($lat2 - $lat1);
         $dLng = deg2rad($lng2 - $lng1);
 
@@ -51,7 +51,6 @@ class PublicController extends Controller
 
         $currentUser = Auth::user();
 
-        // Calculate GIS distance for each harvest to user's location
         $harvests->map(function ($item) use ($currentUser) {
             if ($currentUser && $currentUser->lat && $currentUser->lng && $item->farmer) {
                 $item->distance_km = self::calculateDistance(
@@ -70,7 +69,6 @@ class PublicController extends Controller
             $harvests = $harvests->sortBy('distance_km')->values();
         }
 
-        // All active farmers for map markers
         $farmerMarkers = User::where('role', 'petani')
             ->whereNotNull('lat')
             ->whereNotNull('lng')
@@ -94,10 +92,6 @@ class PublicController extends Controller
             );
         }
 
-        // Calculate delivery options based on LembangFresh document:
-        // 1. Ambil Sendiri: Rp 0
-        // 2. Diantar Petani: jika farmer delivery_available dan distance <= radius
-        // 3. Mitra Pengangkut: Rp 50.000 + (jarak * Rp 5.000)
         $deliveryOptions = [
             'ambil_sendiri' => [
                 'name' => 'Ambil Sendiri ke Kebun',
@@ -120,7 +114,7 @@ class PublicController extends Controller
         ];
 
         $hasActiveMitra = User::where('role', 'mitra')->where('is_active', true)->exists();
-        $distForMitra = $distance ?? 5.0; // default 5 km jika belum set koordinat
+        $distForMitra = $distance ?? 5.0;
         $mitraFee = LogisticsShipment::calculateMitraFee($distForMitra);
 
         $deliveryOptions['mitra_pengangkut'] = [
@@ -174,14 +168,12 @@ class PublicController extends Controller
             'status' => 'dibuat',
         ]);
 
-        // Kurangi stok hasil panen
         $newQty = $harvest->quantity - $validated['quantity'];
         $harvest->update([
             'quantity' => $newQty,
             'status' => $newQty <= 0 ? 'habis' : 'sebagian_terjual',
         ]);
 
-        // Integrasi Otomatis Modul Logistik LembangFresh (Bab 3 & Bab 10 SDD)
         if ($validated['delivery_method'] === 'mitra_pengangkut') {
             $activeMitra = User::where('role', 'mitra')->first();
             LogisticsShipment::create([
@@ -217,7 +209,6 @@ class PublicController extends Controller
         $harvests = Harvest::with('farmer')->where('status', '!=', 'habis')->get();
         $demands = Demand::with('buyer')->where('status', 'terbuka')->get();
 
-        // Perform Supply-Demand Matching Engine (Bab 3.3 & Bab 13 SDD LembangFresh)
         $matchResults = [];
 
         foreach ($demands as $demand) {

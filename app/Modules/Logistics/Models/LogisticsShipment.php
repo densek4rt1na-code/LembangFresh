@@ -43,7 +43,7 @@ class LogisticsShipment extends Model
 
     public static function calculateMitraFee(float $distanceKm): int
     {
-        // Formula dokumen LembangFresh: Tarif Dasar Rp 50.000 + (jarak * Rp 5.000)
+
         return 50000 + (int) (ceil($distanceKm) * 5000);
     }
 }

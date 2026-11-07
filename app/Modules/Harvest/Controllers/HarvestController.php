@@ -16,7 +16,6 @@ class HarvestController extends Controller
     {
         $query = Harvest::with('farmer')->latest();
 
-        // If petani, default filter to their own or allow toggle
         if (Auth::user()->isPetani() && !$request->has('all')) {
             $query->where('farmer_id', Auth::id());
         }
@@ -69,7 +68,7 @@ class HarvestController extends Controller
 
     public function edit(Harvest $harvest)
     {
-        // Petani only can edit their own
+
         if (Auth::user()->isPetani() && $harvest->farmer_id !== Auth::id()) {
             abort(403, 'Anda tidak memiliki hak untuk mengedit data hasil panen ini.');
         }
@@ -87,7 +86,7 @@ class HarvestController extends Controller
         $data['marketing_channel'] = Harvest::determineMarketingChannel($data['grade']);
 
         if ($request->hasFile('photo')) {
-            // Hapus file foto lama jika ada
+
             if ($harvest->photo_path && Storage::disk('public')->exists($harvest->photo_path)) {
                 Storage::disk('public')->delete($harvest->photo_path);
             }
@@ -108,7 +107,6 @@ class HarvestController extends Controller
 
         $commodityName = $harvest->commodity;
 
-        // Hapus file foto dari disk storage
         if ($harvest->photo_path && Storage::disk('public')->exists($harvest->photo_path)) {
             Storage::disk('public')->delete($harvest->photo_path);
         }

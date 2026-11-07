@@ -16,7 +16,6 @@
                 </a>
             </div>
 
-            <!-- Form Edit dengan Multipart Form Data -->
             <form action="{{ route('harvests.update', $harvest->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -24,8 +23,8 @@
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
                         <label for="commodity" class="form-label fw-semibold">Nama Komoditas Hortikultura: <span class="text-danger">*</span></label>
-                        <input type="text" name="commodity" id="commodity" 
-                               class="form-control @error('commodity') is-invalid @enderror" 
+                        <input type="text" name="commodity" id="commodity"
+                               class="form-control @error('commodity') is-invalid @enderror"
                                value="{{ old('commodity', $harvest->commodity) }}" required>
                         @error('commodity')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -34,8 +33,8 @@
 
                     <div class="col-md-6">
                         <label for="variety" class="form-label fw-semibold">Varietas / Jenis Khusus:</label>
-                        <input type="text" name="variety" id="variety" 
-                               class="form-control @error('variety') is-invalid @enderror" 
+                        <input type="text" name="variety" id="variety"
+                               class="form-control @error('variety') is-invalid @enderror"
                                value="{{ old('variety', $harvest->variety) }}">
                         @error('variety')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -47,8 +46,8 @@
                     <div class="col-md-4">
                         <label for="quantity" class="form-label fw-semibold">Jumlah Sisa Panen (kg): <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="number" name="quantity" id="quantity" 
-                                   class="form-control @error('quantity') is-invalid @enderror" 
+                            <input type="number" name="quantity" id="quantity"
+                                   class="form-control @error('quantity') is-invalid @enderror"
                                    value="{{ old('quantity', $harvest->quantity) }}" min="1" required>
                             <span class="input-group-text">kg</span>
                         </div>
@@ -61,8 +60,8 @@
                         <label for="price_per_kg" class="form-label fw-semibold">Harga Jual per kg (Rp): <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <span class="input-group-text">Rp</span>
-                            <input type="number" name="price_per_kg" id="price_per_kg" 
-                                   class="form-control @error('price_per_kg') is-invalid @enderror" 
+                            <input type="number" name="price_per_kg" id="price_per_kg"
+                                   class="form-control @error('price_per_kg') is-invalid @enderror"
                                    value="{{ old('price_per_kg', $harvest->price_per_kg) }}" min="500" required>
                         </div>
                         @error('price_per_kg')
@@ -83,7 +82,6 @@
                     </div>
                 </div>
 
-                <!-- Jalur Pemasaran Dinamis -->
                 <div class="p-3 mb-3 rounded-3 border bg-light">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-route text-success fs-4 me-2"></i>
@@ -98,8 +96,8 @@
                 <div class="row g-3 mb-3">
                     <div class="col-md-4">
                         <label for="harvest_date" class="form-label fw-semibold">Tanggal Panen: <span class="text-danger">*</span></label>
-                        <input type="date" name="harvest_date" id="harvest_date" 
-                               class="form-control @error('harvest_date') is-invalid @enderror" 
+                        <input type="date" name="harvest_date" id="harvest_date"
+                               class="form-control @error('harvest_date') is-invalid @enderror"
                                value="{{ old('harvest_date', $harvest->harvest_date->format('Y-m-d')) }}" required>
                         @error('harvest_date')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -108,8 +106,8 @@
 
                     <div class="col-md-4">
                         <label for="ready_date" class="form-label fw-semibold">Tanggal Siap Dikirim: <span class="text-danger">*</span></label>
-                        <input type="date" name="ready_date" id="ready_date" 
-                               class="form-control @error('ready_date') is-invalid @enderror" 
+                        <input type="date" name="ready_date" id="ready_date"
+                               class="form-control @error('ready_date') is-invalid @enderror"
                                value="{{ old('ready_date', $harvest->ready_date->format('Y-m-d')) }}" required>
                         @error('ready_date')
                             <div class="invalid-feedback">{{ $message }}</div>
@@ -129,23 +127,21 @@
                     </div>
                 </div>
 
-                <!-- Input Upload File Foto Pengganti -->
                 <div class="mb-3">
                     <label for="photo" class="form-label fw-semibold">Ganti Foto Komoditas (Opsional):</label>
-                    <input type="file" name="photo" id="photo" 
-                           class="form-control @error('photo') is-invalid @enderror" 
+                    <input type="file" name="photo" id="photo"
+                           class="form-control @error('photo') is-invalid @enderror"
                            accept="image/jpeg,image/png,image/jpg,image/webp" onchange="previewImg(event)">
                     <div class="form-text small">Kosongkan jika tidak ingin mengubah foto. Format: JPG, PNG, WEBP (Maks: 2 MB).</div>
                     @error('photo')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
 
-                    <!-- Pratinjau Foto Saat Ini & Foto Baru -->
                     <div class="row g-2 mt-2">
                         @if($harvest->photo_path && file_exists(public_path('storage/' . $harvest->photo_path)))
                             <div class="col-auto">
                                 <div class="small fw-semibold text-muted mb-1">Foto Saat Ini di Storage:</div>
-                                <img src="{{ asset('storage/' . $harvest->photo_path) }}" alt="{{ $harvest->commodity }}" 
+                                <img src="{{ asset('storage/' . $harvest->photo_path) }}" alt="{{ $harvest->commodity }}"
                                      class="img-thumbnail rounded-3" style="max-height: 120px;">
                             </div>
                         @endif
@@ -158,7 +154,7 @@
 
                 <div class="mb-4">
                     <label for="description" class="form-label fw-semibold">Deskripsi / Catatan Tambahan:</label>
-                    <textarea name="description" id="description" rows="3" 
+                    <textarea name="description" id="description" rows="3"
                               class="form-control @error('description') is-invalid @enderror">{{ old('description', $harvest->description) }}</textarea>
                     @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
