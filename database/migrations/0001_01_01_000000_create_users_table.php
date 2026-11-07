@@ -17,6 +17,18 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'petani', 'pembeli', 'mitra'])->default('petani');
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->double('lat', 10, 6)->nullable();
+            $table->double('lng', 10, 6)->nullable();
+            $table->boolean('is_verified')->default(false);
+            $table->boolean('delivery_available')->default(false);
+            $table->double('delivery_radius', 8, 2)->default(5.0);
+            $table->integer('delivery_fee')->default(25000);
+            $table->string('vehicle_desc')->nullable();
+            $table->integer('vehicle_capacity')->default(0);
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

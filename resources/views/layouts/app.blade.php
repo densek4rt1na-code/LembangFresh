@@ -1,98 +1,155 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" class="h-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title', 'Auth Project')</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <title>@yield('title', 'LembangFresh - Sistem Informasi GIS Hortikultura Lembang')</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Leaflet GIS CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+    <!-- Custom CSS LembangFresh -->
+    <style>
+        :root {
+            --forest-green: #245831;
+            --forest-dark: #163d20;
+            --forest-light: #2e7340;
+            --lime-accent: #a3e635;
+            --lime-hover: #bef264;
+            --bg-canvas: #f8faf7;
+            --card-border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-canvas);
+            color: #1e293b;
+        }
+
+        .bg-forest {
+            background-color: var(--forest-green) !important;
+        }
+
+        .bg-forest-dark {
+            background-color: var(--forest-dark) !important;
+        }
+
+        .text-forest {
+            color: var(--forest-green) !important;
+        }
+
+        .text-lime {
+            color: var(--lime-accent) !important;
+        }
+
+        .bg-lime {
+            background-color: var(--lime-accent) !important;
+        }
+
+        .btn-lime {
+            background-color: var(--lime-accent);
+            color: var(--forest-dark) !important;
+            border: 1px solid var(--lime-accent);
+            font-weight: 600;
+        }
+
+        .btn-lime:hover {
+            background-color: var(--lime-hover);
+            color: var(--forest-dark) !important;
+        }
+
+        .btn-forest {
+            background-color: var(--forest-green);
+            color: #ffffff !important;
+            border: 1px solid var(--forest-green);
+            font-weight: 600;
+        }
+
+        .btn-forest:hover {
+            background-color: var(--forest-dark);
+            color: #ffffff !important;
+        }
+
+        .hover-lime:hover {
+            color: var(--lime-accent) !important;
+        }
+
+        .hover-green:hover {
+            color: var(--forest-green) !important;
+        }
+
+        .transition-all {
+            transition: all 0.25s ease-in-out;
+        }
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .stat-card {
+            border-left: 4px solid var(--forest-green);
+        }
+
+        #gisMap, #mainMap, #pickerMap {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            z-index: 1;
+        }
+
+        .leaflet-popup-content-wrapper {
+            border-radius: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+
+    @stack('styles')
 </head>
-<body>
-    <!-- Navbar (menu bagian atas website) -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+<body class="d-flex flex-column h-100">
+
+    <!-- Partial Menu Navigasi Utama -->
+    @include('partials.navbar')
+
+    <!-- Container Utama Aplikasi -->
+    <main class="flex-shrink-0 my-4">
         <div class="container">
-            <a class="navbar-brand" href="/">Auth Project</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                </ul>
-                <!-- Bagian kanan navbar -->
-                <ul class="navbar-nav ms-auto">
-                    @auth
-                        <!-- Jika pengguna sudah login, tampilkan menu berikut -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard') }}">
-                                <i class="fas fa-tachometer-alt me-1"></i>Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('profile') }}">
-                                <i class="fas fa-user me-1"></i>Profile
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <!-- Tombol logout dengan form (POST) untuk keluar dari akun -->
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="nav-link btn btn-link">
-                                    <i class="fas fa-sign-out-alt me-1"></i>Logout
-                                </button>
-                            </form>
-                        </li>
-                    @else
-                        <!-- Jika pengguna belum login, tampilkan menu Login dan Register -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">
-                                <i class="fas fa-sign-in-alt me-1"></i>Login
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">
-                                <i class="fas fa-user-plus me-1"></i>Register
-                            </a>
-                        </li>
-                    @endauth
-                </ul>
-            </div>
+            <!-- Komponen Pesan Notifikasi (Flash Alert) -->
+            <x-alert />
+
+            <!-- Konten Halaman (Diwariskan ke Setiap Blade View) -->
+            @yield('content')
         </div>
-    </nav>
+    </main>
 
-    <div class="container">
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+    <!-- Partial Footer Aplikasi -->
+    @include('partials.footer')
 
-        @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                {{ session('error') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+    <!-- jQuery, Bootstrap JS, Leaflet JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Setup Ajax CSRF Token -->
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    </script>
 
-        @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                <ul class="mb-0">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
-        @yield('content')
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
 </body>
 </html>
